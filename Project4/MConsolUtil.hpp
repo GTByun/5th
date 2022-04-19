@@ -9,7 +9,7 @@ namespace MuSeoun_Engine
 {
 	class MConsoleRenderer
 	{
-	public :
+	public:
 		MConsoleRenderer() { SetCursorState(false); }
 		~MConsoleRenderer() {}
 
@@ -37,5 +37,5 @@ namespace MuSeoun_Engine
 			system("cls");
 		}
 	};
-	
+
 }
