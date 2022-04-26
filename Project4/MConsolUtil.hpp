@@ -34,7 +34,11 @@ namespace MuSeoun_Engine
 
 		void Clear()
 		{
-			system("cls");
+			MoveCursor(0, 0);
+			for (size_t i = 0; i < 20; i++)
+			{
+				DrawString("                                         \n");
+			}
 		}
 	};
 

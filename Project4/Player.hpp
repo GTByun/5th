@@ -1,33 +1,50 @@
 class Player
 {
 public:
-	int x, y, fightCount;
+	int x, y, flightCount;
 	Player()
 	{
-		x = 20;
-		y = 7;
-		fightCount = 0;
+		Reset();
 	}
 	~Player() {}
 
-	void isKeyPressed()
+	void Reset()
 	{
-		if (fightCount == 0)
+		x = 20;
+		y = 7;
+		flightCount = 0;
+	}
+
+	void isSpacePressed()
+	{
+		if (flightCount == 0)
 		{
 			y = 5;
-			fightCount = 1;
+			flightCount = 1;
+		}
+	}
+
+	void isDownPressed()
+	{
+		if (flightCount != 0 && flightCount < 25)
+		{
+			flightCount = 25;
 		}
 	}
 
 	void filghtCounter()
 	{
-		if (y == 5)
+		if (flightCount != 0)
 		{
-			fightCount++;
-			if (fightCount == 30)
+			flightCount++;
+			if (abs(flightCount - 15) > 10)
+				y = 6;
+			else
+				y = 5;
+			if (flightCount == 30)
 			{
 				y = 7;
-				fightCount = 0;
+				flightCount = 0;
 			}
 		}
 	}

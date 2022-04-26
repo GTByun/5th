@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Trab.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MConsolUtil.hpp" />
