@@ -4,7 +4,6 @@
 #include "MConsolUtil.hpp"
 #include "Player.hpp"
 #include "Trab.hpp"
-#include <list>
 #include <random>
 
 using namespace std;
