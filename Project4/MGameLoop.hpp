@@ -19,6 +19,7 @@ namespace MuSeoun_Engine
 		chrono::duration<double> renderDuration;
 		Player* p = new Player();
 		Trab* t[6] = {new Trab(), new Trab(), new Trab(), new Trab(), new Trab(), new Trab()};
+		int trabSize = sizeof(t) / sizeof(t[0]);
 		int score, scoreCount;
 	public:
 		MGameLoop()
@@ -66,7 +67,7 @@ namespace MuSeoun_Engine
 					p->isSpacePressed();
 				else
 				{
-					for (size_t i = 0; i < 6; i++)
+					for (size_t i = 0; i < trabSize; i++)
 					{
 						t[i]->Hide();
 					}
@@ -91,7 +92,7 @@ namespace MuSeoun_Engine
 				random_device rd;
 				mt19937 gen(rd());
 				p->filghtCounter();
-				for (size_t i = 0; i < 6; i++)
+				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
 					{
@@ -104,7 +105,7 @@ namespace MuSeoun_Engine
 				if (dis(gen) == 1)
 				{
 					int arrNum = -1;
-					for (size_t i = 0; i < 6; i++)
+					for (size_t i = 0; i < trabSize; i++)
 					{
 						if (!(t[i]->isOn))
 						{
@@ -115,7 +116,7 @@ namespace MuSeoun_Engine
 					if (arrNum != -1)
 					{
 						int count = 0;
-						for (size_t i = 0; i < 6; i++)
+						for (size_t i = 0; i < trabSize; i++)
 						{
 							if (t[i]->x < 35)
 								count++;
@@ -126,7 +127,7 @@ namespace MuSeoun_Engine
 						}
 					}
 				}
-				for (size_t i = 0; i < 6; i++)
+				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn && t[i]->x == 20)
 					{
@@ -153,7 +154,7 @@ namespace MuSeoun_Engine
 				cRenderer.MoveCursor(p->x, p->y);
 				cRenderer.DrawString("P");
 
-				for (size_t i = 0; i < 6; i++)
+				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
 					{
