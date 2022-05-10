@@ -1,9 +1,9 @@
 #pragma once
 #include <chrono>
 #include <thread>
-#include "MConsolUtil.hpp"
 #include "Player.hpp"
 #include "Trab.hpp"
+#include "MWindowUtil.hpp"
 #include <random>
 
 using namespace std;
@@ -14,13 +14,15 @@ namespace MuSeoun_Engine
 	{
 	private:
 		bool _isGameRunning, gameOver;
-		MConsoleRenderer cRenderer;
+		//MConsoleRenderer cRenderer;
+		MWindowUtil* cWindow;
 		chrono::system_clock::time_point startRenderTimePoint;
 		chrono::duration<double> renderDuration;
 		Player* p = new Player();
 		Trab* t[6] = {new Trab(), new Trab(), new Trab(), new Trab(), new Trab(), new Trab()};
 		int trabSize = sizeof(t) / sizeof(t[0]);
 		int score, scoreCount;
+		int key;
 	public:
 		MGameLoop()
 		{
@@ -30,13 +32,18 @@ namespace MuSeoun_Engine
 			gameOver = false;
 			score = 0;
 			scoreCount = 0;
+			cWindow = new MWindowUtil(640, 480, 0.025, 1.0 / 3 * 0.1);
+			key = -1;
 		}
 		~MGameLoop()
 		{
 			delete(p);
-			for (size_t i = 0; i < 6; i++)
+			for (size_t i = 0; i < trabSize; i++)
+			{
 				delete(t[i]);
+			}
 			delete(t);
+			delete(cWindow);
 		}
 		
 		void Run()
@@ -58,35 +65,42 @@ namespace MuSeoun_Engine
 		}
 	private:
 		void Initialize() {}
-		void Release() {}
+		void Release()
+		{
+			delete(p);
+			for (size_t i = 0; i < trabSize; i++)
+			{
+				delete(t[i]);
+			}
+			delete(cWindow);
+		}
 		void Input()
 		{
-			if (GetAsyncKeyState(VK_SPACE) & 0x8000 || GetAsyncKeyState(VK_SPACE) & 0x8001)
+			key = cWindow->FindKey();
+			if (key == GLFW_KEY_SPACE)
 			{
 				if (!gameOver)
 					p->isSpacePressed();
 				else
 				{
 					for (size_t i = 0; i < trabSize; i++)
-					{
 						t[i]->Hide();
-					}
 					p->Reset();
-					score = 0;
+					score - 0;
 					scoreCount = 0;
 					gameOver = false;
 				}
 			}
-			if (GetAsyncKeyState(VK_DOWN) & 0x8000 || GetAsyncKeyState(VK_DOWN) & 0x8001)
-			{
-				if (!gameOver)
-				{
-					p->isDownPressed();
-				}
-			}
+			if (key == GLFW_KEY_DOWN)
+				p->isDownPressed();
 		}
 		void Update()
 		{
+			cWindow->WindowEvent();
+			if (cWindow->isEnd())
+			{
+				_isGameRunning = false;
+			}
 			if (!gameOver)
 			{
 				random_device rd;
@@ -147,42 +161,35 @@ namespace MuSeoun_Engine
 		}
 		void Render()
 		{
-			cRenderer.Clear();
+			cWindow->Clear();
 
 			if (!gameOver)
 			{
-				cRenderer.MoveCursor(p->x, p->y);
-				cRenderer.DrawString("P");
+				cWindow->PrintRectangle(p->x, p->y, 0, 255, 0);
 
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
 					{
-						cRenderer.MoveCursor(t[i]->x, t[i]->y);
-						cRenderer.DrawString("X");
-						if (t[i]->length == 2)
-						{
-							cRenderer.MoveCursor(t[i]->x, t[i]->y - 1);
-							cRenderer.DrawString("X");
-						}
+						cWindow->PrintTriangle(t[i]->x, t[i]->y, 255, 0, 0, t[i]->length);
 					}
 				}
 			}
 			else
 			{
-				cRenderer.MoveCursor(16, 7);
-				cRenderer.DrawString("Game Over!");
+				//cRenderer.MoveCursor(16, 7);
+				//cRenderer.DrawString("Game Over!");
 			}
-			cRenderer.MoveCursor(0, 0);
-			cRenderer.DrawString(to_string(score));
+			//cRenderer.MoveCursor(0, 0);
+			//cRenderer.DrawString(to_string(score));
 
-			cRenderer.MoveCursor(10, 20);
+			//cRenderer.MoveCursor(10, 20);
 
-			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
-			startRenderTimePoint = chrono::system_clock::now();
-			string fps = "FPS : " + to_string(1.0 / renderDuration.count());
-			cRenderer.DrawString(fps);
-			this_thread::sleep_for(chrono::milliseconds(1));
+			//renderDuration = chrono::system_clock::now() - startRenderTimePoint;
+			//startRenderTimePoint = chrono::system_clock::now();
+			//string fps = "FPS : " + to_string(1.0 / renderDuration.count());
+			//cRenderer.DrawString(fps);
+			//this_thread::sleep_for(chrono::milliseconds(1));
 		}
 	};
 }

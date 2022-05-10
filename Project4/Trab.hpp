@@ -29,13 +29,13 @@ public:
 		y = 0;
 		moveCount = 0;
 		length = 0;
-		isOn = false;;
+		isOn = false;
 	}
 	
 	void MoveConter()
 	{
 		moveCount++;
-		if (moveCount == 3)
+		if (moveCount == 6)
 		{
 			x--;
 			moveCount = 0;
