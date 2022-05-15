@@ -1,7 +1,9 @@
 class Player
 {
+private:
+	const double gravity = -75.0f;
 public:
-	int x, y, flightCount;
+	double x, y, jumpPower;
 	Player()
 	{
 		Reset();
@@ -12,40 +14,27 @@ public:
 	{
 		x = 20;
 		y = 7;
-		flightCount = 0;
+		jumpPower = 0;
 	}
 
 	void isSpacePressed()
 	{
-		if (flightCount == 0)
+		if (y >= 7)
 		{
-			y = 5;
-			flightCount = 1;
+			jumpPower = -19.0f;
 		}
 	}
 
 	void isDownPressed()
 	{
-		if (flightCount != 0 && flightCount < 25)
-		{
-			flightCount = 25;
-		}
+		jumpPower = 25.0f;
 	}
 
-	void filghtCounter()
+	void filghtCounter(double deltaTime)
 	{
-		if (flightCount != 0)
-		{
-			flightCount++;
-			if (abs(flightCount - 15) > 10)
-				y = 6;
-			else
-				y = 5;
-			if (flightCount == 30)
-			{
-				y = 7;
-				flightCount = 0;
-			}
-		}
+		double carY = y;
+		carY += jumpPower * deltaTime;
+		jumpPower -= gravity * deltaTime;
+		y = carY <= 7 ? carY : 7;
 	}
 };

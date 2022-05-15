@@ -26,12 +26,12 @@ namespace MuSeoun_Engine
         GLFWwindow* window;
         float halfX, halfY;
     public:
-        MWindowUtil(int width, int height, float halfX, float halfY)
+        MWindowUtil(int width, int height, char title[], float halfX, float halfY)
         {
             glfwSetErrorCallback(error_callback);
             if (!glfwInit())
                 exit(EXIT_FAILURE);
-            window = glfwCreateWindow(width, height, "Chrome Dino", NULL, NULL);
+            window = glfwCreateWindow(width, height, title, NULL, NULL);
             if (!window)
             {
                 glfwTerminate();
@@ -47,7 +47,6 @@ namespace MuSeoun_Engine
         {
             glfwDestroyWindow(window);
             glfwTerminate();
-            exit(EXIT_SUCCESS);
         }
 
         int FindKey()
@@ -60,17 +59,17 @@ namespace MuSeoun_Engine
             glClear(GL_COLOR_BUFFER_BIT);
         }
 
-        void glBeginExtend(int x, int y, int r, int g, int b, float* realX, float* realY, GLenum mode)
+        void glBeginExtend(double x, double y, int r, int g, int b, double* realX, double* realY, GLenum mode)
         {
             *realX = x / 20.0 - 1;
-            *realY = (20 - static_cast<__int64>(y)) / 15.0 - 2.0 / 3;
+            *realY = -y / 15.0 + 2 / 3.0;
             glBegin(mode);
             glColor3f(r / 255.0, g / 255.0, b / 255.0);
         }
 
-        void PrintRectangle(int x, int y, int r, int g, int b)
+        void PrintRectangle(double x, double y, int r, int g, int b)
         {
-            float realX, realY;
+            double realX, realY;
             glBeginExtend(x, y, r, g, b, &realX, &realY, GL_TRIANGLE_STRIP);
             glVertex2f(realX - halfX, realY - halfY);
             glVertex2f(realX + halfX, realY - halfY);
@@ -79,13 +78,13 @@ namespace MuSeoun_Engine
             glEnd();
         }
 
-        void PrintTriangle(int x, int y, int r, int g, int b, int length)
+        void PrintTriangle(double x, double y, int r, int g, int b, double length)
         {
-            float realX, realY;
+            double realX, realY;
             glBeginExtend(x, y, r, g, b, &realX, &realY, GL_TRIANGLES);
             glVertex2f(realX - halfX, realY - halfY);
             glVertex2f(realX + halfX, realY - halfY);
-            glVertex2f(realX, realY + halfY * (length * 2 - 1));
+            glVertex2f(realX, realY + halfY * (length * 2.0f - 1));
             glEnd();
         }
 

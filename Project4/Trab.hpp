@@ -3,9 +3,12 @@
 using namespace std;
 class Trab
 {
+private:
+	const double speed = 11.0f;
 public:
-	int x, y, length, moveCount;
+	double x, y, length;
 	bool isOn;
+
 	Trab()
 	{
 		Hide();
@@ -14,7 +17,6 @@ public:
 	void Initialize()
 	{
 		x = 40;
-		moveCount = 0;
 		random_device rd;
 		mt19937 gen(rd());
 		uniform_int_distribution<int> dis(1, 2);
@@ -27,18 +29,20 @@ public:
 	{
 		x = 0;
 		y = 0;
-		moveCount = 0;
 		length = 0;
 		isOn = false;
 	}
 	
-	void MoveConter()
+	void Move(double deltaTime)
 	{
-		moveCount++;
-		if (moveCount == 6)
-		{
-			x--;
-			moveCount = 0;
-		}
+		x -= deltaTime * speed;
+	}
+
+	bool Collider(double x, double y)
+	{
+		bool xCondition = abs(x - this->x) < 1;
+		double ySub = y - this->y;
+		bool yCondition = ySub > -length && ySub < 1;
+		return xCondition && yCondition;
 	}
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
-#include <thread>
+#include <string>
+#include <iostream>
 #include "Player.hpp"
 #include "Trab.hpp"
 #include "MWindowUtil.hpp"
@@ -23,6 +24,7 @@ namespace MuSeoun_Engine
 		int trabSize = sizeof(t) / sizeof(t[0]);
 		int score, scoreCount;
 		int key;
+		double deltaTime;
 	public:
 		MGameLoop()
 		{
@@ -32,19 +34,12 @@ namespace MuSeoun_Engine
 			gameOver = false;
 			score = 0;
 			scoreCount = 0;
-			cWindow = new MWindowUtil(640, 480, 0.025, 1.0 / 3 * 0.1);
+			char TitleName[] = "Chrome dino";
+			cWindow = new MWindowUtil(640, 480, TitleName, 0.025, 1.0 / 3 * 0.1);
 			key = -1;
+			deltaTime = 0;
 		}
-		~MGameLoop()
-		{
-			delete(p);
-			for (size_t i = 0; i < trabSize; i++)
-			{
-				delete(t[i]);
-			}
-			delete(t);
-			delete(cWindow);
-		}
+		~MGameLoop() {}
 		
 		void Run()
 		{
@@ -86,8 +81,8 @@ namespace MuSeoun_Engine
 					for (size_t i = 0; i < trabSize; i++)
 						t[i]->Hide();
 					p->Reset();
-					score - 0;
-					scoreCount = 0;
+					//score - 0;
+					//scoreCount = 0;
 					gameOver = false;
 				}
 			}
@@ -105,13 +100,13 @@ namespace MuSeoun_Engine
 			{
 				random_device rd;
 				mt19937 gen(rd());
-				p->filghtCounter();
+				p->filghtCounter(deltaTime);
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
 					{
-						t[i]->MoveConter();
-						if (t[i]->x == 0)
+						t[i]->Move(deltaTime);
+						if (t[i]->x < 0)
 							t[i]->Hide();
 					}
 				}
@@ -143,20 +138,17 @@ namespace MuSeoun_Engine
 				}
 				for (size_t i = 0; i < trabSize; i++)
 				{
-					if (t[i]->isOn && t[i]->x == 20)
+					if (t[i]->isOn && t[i]->Collider(p->x, p->y))
 					{
-						if (p->y == t[i]->y || (t[i]->length == 2 && p->y == t[i]->y - 1))
-						{
-							gameOver = true;
-						}
+						gameOver = true;
 					}
 				}
-				scoreCount++;
+				/*scoreCount++;
 				if (scoreCount == 2)
 				{
 					score++;
 					scoreCount = 0;
-				}
+				}*/
 			}
 		}
 		void Render()
@@ -175,21 +167,18 @@ namespace MuSeoun_Engine
 					}
 				}
 			}
-			else
-			{
+			//else
+			//{
 				//cRenderer.MoveCursor(16, 7);
 				//cRenderer.DrawString("Game Over!");
-			}
+			//}
 			//cRenderer.MoveCursor(0, 0);
 			//cRenderer.DrawString(to_string(score));
 
-			//cRenderer.MoveCursor(10, 20);
 
-			//renderDuration = chrono::system_clock::now() - startRenderTimePoint;
-			//startRenderTimePoint = chrono::system_clock::now();
-			//string fps = "FPS : " + to_string(1.0 / renderDuration.count());
-			//cRenderer.DrawString(fps);
-			//this_thread::sleep_for(chrono::milliseconds(1));
+			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
+			startRenderTimePoint = chrono::system_clock::now();
+			deltaTime = renderDuration.count();
 		}
 	};
 }
