@@ -1,9 +1,11 @@
-class Player
+#include "Object.hpp"
+
+class Player : public Object
 {
 private:
 	const double gravity = -75.0f;
+	double jumpPower;
 public:
-	double x, y, jumpPower;
 	Player()
 	{
 		Reset();
@@ -21,7 +23,7 @@ public:
 	{
 		if (y >= 7)
 		{
-			jumpPower = -19.0f;
+			jumpPower = -21.0f;
 		}
 	}
 
@@ -30,7 +32,7 @@ public:
 		jumpPower = 25.0f;
 	}
 
-	void filghtCounter(double deltaTime)
+	void Flight(double deltaTime)
 	{
 		double carY = y;
 		carY += jumpPower * deltaTime;

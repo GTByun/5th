@@ -20,9 +20,9 @@ namespace MuSeoun_Engine
 		chrono::system_clock::time_point startRenderTimePoint;
 		chrono::duration<double> renderDuration;
 		Player* p = new Player();
-		Trab* t[6] = {new Trab(), new Trab(), new Trab(), new Trab(), new Trab(), new Trab()};
+		Trab* t[6];
 		int trabSize = sizeof(t) / sizeof(t[0]);
-		int score, scoreCount;
+		//int score, scoreCount;
 		int key;
 		double deltaTime;
 	public:
@@ -32,10 +32,14 @@ namespace MuSeoun_Engine
 			startRenderTimePoint = chrono::system_clock::now();
 			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
 			gameOver = false;
-			score = 0;
-			scoreCount = 0;
+			//score = 0;
+			//scoreCount = 0;
+			for (size_t i = 0; i < trabSize; i++)
+			{
+				t[i] = new Trab();
+			}
 			char TitleName[] = "Chrome dino";
-			cWindow = new MWindowUtil(640, 480, TitleName, 0.025, 1.0 / 3 * 0.1);
+			cWindow = new MWindowUtil(640, 480, TitleName, 0.025, 1.0 / 3 * 0.1, 40, 20);
 			key = -1;
 			deltaTime = 0;
 		}
@@ -72,22 +76,25 @@ namespace MuSeoun_Engine
 		void Input()
 		{
 			key = cWindow->FindKey();
-			if (key == GLFW_KEY_SPACE)
+			if (gameOver)
 			{
-				if (!gameOver)
-					p->isSpacePressed();
-				else
+				if (key == GLFW_KEY_R)
 				{
 					for (size_t i = 0; i < trabSize; i++)
 						t[i]->Hide();
 					p->Reset();
-					//score - 0;
+					//score = 0;
 					//scoreCount = 0;
 					gameOver = false;
 				}
 			}
-			if (key == GLFW_KEY_DOWN)
-				p->isDownPressed();
+			else
+			{
+				if (key == GLFW_KEY_SPACE)
+					p->isSpacePressed();
+				if (key == GLFW_KEY_DOWN)
+					p->isDownPressed();
+			}
 		}
 		void Update()
 		{
@@ -100,7 +107,7 @@ namespace MuSeoun_Engine
 			{
 				random_device rd;
 				mt19937 gen(rd());
-				p->filghtCounter(deltaTime);
+				p->Flight(deltaTime);
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
@@ -138,17 +145,17 @@ namespace MuSeoun_Engine
 				}
 				for (size_t i = 0; i < trabSize; i++)
 				{
-					if (t[i]->isOn && t[i]->Collider(p->x, p->y))
+					if (t[i]->isOn && t[i]->Collider(p))
 					{
 						gameOver = true;
 					}
 				}
-				/*scoreCount++;
-				if (scoreCount == 2)
-				{
-					score++;
-					scoreCount = 0;
-				}*/
+				//scoreCount++;
+				//if (scoreCount == 2)
+				//{
+				//	score++;
+				//	scoreCount = 0;
+				//}
 			}
 		}
 		void Render()
@@ -165,6 +172,10 @@ namespace MuSeoun_Engine
 					{
 						cWindow->PrintTriangle(t[i]->x, t[i]->y, 255, 0, 0, t[i]->length);
 					}
+				}
+				for (size_t i = 0; i < 41; i++)
+				{
+					cWindow->PrintRectangle(i, 8, 0, 0, 0);
 				}
 			}
 			//else

@@ -1,12 +1,13 @@
 #include <random>
+#include "Object.hpp"
 
 using namespace std;
-class Trab
+class Trab : public Object
 {
 private:
 	const double speed = 11.0f;
 public:
-	double x, y, length;
+	double length;
 	bool isOn;
 
 	Trab()
@@ -19,8 +20,9 @@ public:
 		x = 40;
 		random_device rd;
 		mt19937 gen(rd());
-		uniform_int_distribution<int> dis(1, 2);
-		length = dis(gen);
+		//uniform_int_distribution<int> dis(1, 2);
+		uniform_real_distribution<double> dis3(1.0f, 2.0f);
+		length = dis3(gen);
 		uniform_int_distribution<int> dis2(5, 7);
 		y = dis2(gen);
 		isOn = true;
@@ -38,8 +40,9 @@ public:
 		x -= deltaTime * speed;
 	}
 
-	bool Collider(double x, double y)
+	bool Collider(Object* obj)
 	{
+		double x = obj->x, y = obj->y;
 		bool xCondition = abs(x - this->x) < 1;
 		double ySub = y - this->y;
 		bool yCondition = ySub > -length && ySub < 1;

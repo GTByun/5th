@@ -21,6 +21,9 @@
     <ClCompile Include="Trab.hpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MGameLoop.hpp">

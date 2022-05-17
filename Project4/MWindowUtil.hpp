@@ -26,7 +26,7 @@ namespace MuSeoun_Engine
         GLFWwindow* window;
         float halfX, halfY;
     public:
-        MWindowUtil(int width, int height, char title[], float halfX, float halfY)
+        MWindowUtil(int width, int height, char title[], float halfX, float halfY, int Xblock, int Yblock)
         {
             glfwSetErrorCallback(error_callback);
             if (!glfwInit())
