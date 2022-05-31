@@ -6,7 +6,7 @@
 #include "Trab.hpp"
 #include "MWindowUtil.hpp"
 #include <random>
-
+ 
 using namespace std;
 
 namespace MuSeoun_Engine
