@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
+#include <stdio.h>
 #pragma comment(lib, "OpenGL32")
 
 int whatPress = 0;
