@@ -54,7 +54,6 @@ namespace MuSeoun_Engine
 				Input();
 				Update();
 				Render();
-
 			}
 			Release();
 		}
