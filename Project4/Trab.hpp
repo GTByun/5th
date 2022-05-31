@@ -17,14 +17,13 @@ public:
 	~Trab() {}
 	void Initialize()
 	{
-		x = 40;
+		x = 40.5;
 		random_device rd;
 		mt19937 gen(rd());
-		//uniform_int_distribution<int> dis(1, 2);
-		uniform_real_distribution<double> dis3(1.0f, 2.0f);
-		length = dis3(gen);
-		uniform_int_distribution<int> dis2(5, 7);
-		y = dis2(gen);
+		uniform_int_distribution<int> dis1(5, 7);
+		y = dis1(gen);
+		uniform_real_distribution<double> dis2(1.0f, 1.5f);
+		length = dis2(gen);
 		isOn = true;
 	}
 	void Hide()

@@ -68,9 +68,7 @@ namespace MuSeoun_Engine
 		{
 			delete(p);
 			for (size_t i = 0; i < trabSize; i++)
-			{
 				delete(t[i]);
-			}
 			delete(cWindow);
 		}
 		void Input()
@@ -100,9 +98,8 @@ namespace MuSeoun_Engine
 		{
 			cWindow->WindowEvent();
 			if (cWindow->isEnd())
-			{
 				_isGameRunning = false;
-			}
+
 			if (!gameOver)
 			{
 				random_device rd;
@@ -113,7 +110,7 @@ namespace MuSeoun_Engine
 					if (t[i]->isOn)
 					{
 						t[i]->Move(deltaTime);
-						if (t[i]->x < 0)
+						if (t[i]->x < -0.5f)
 							t[i]->Hide();
 					}
 				}
@@ -140,15 +137,14 @@ namespace MuSeoun_Engine
 						if (count == 6)
 						{
 							t[arrNum]->Initialize();
+							printf("%f, %f\n", t[arrNum]->y, t[arrNum]->length);
 						}
 					}
 				}
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn && t[i]->Collider(p))
-					{
 						gameOver = true;
-					}
 				}
 				//scoreCount++;
 				//if (scoreCount == 2)
@@ -169,14 +165,10 @@ namespace MuSeoun_Engine
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
-					{
 						cWindow->PrintTriangle(t[i]->x, t[i]->y, 255, 0, 0, t[i]->length);
-					}
 				}
 				for (size_t i = 0; i < 41; i++)
-				{
 					cWindow->PrintRectangle(i, 8, 0, 0, 0);
-				}
 			}
 			//else
 			//{

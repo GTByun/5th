@@ -22,9 +22,7 @@ public:
 	void isSpacePressed()
 	{
 		if (y >= 7)
-		{
 			jumpPower = -21.0f;
-		}
 	}
 
 	void isDownPressed()
