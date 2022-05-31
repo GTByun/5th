@@ -135,10 +135,7 @@ namespace MuSeoun_Engine
 								count++;
 						}
 						if (count == 6)
-						{
 							t[arrNum]->Initialize();
-							printf("%f, %f\n", t[arrNum]->y, t[arrNum]->length);
-						}
 					}
 				}
 				for (size_t i = 0; i < trabSize; i++)
