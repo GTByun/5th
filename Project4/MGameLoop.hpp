@@ -95,7 +95,7 @@ namespace MuSeoun_Engine
 		{
 			cWindow->WindowEvent();
 			if (cWindow->isEnd())
-				_isGameRunning = false;
+				Stop();
 
 			if (!gameOver)
 			{
