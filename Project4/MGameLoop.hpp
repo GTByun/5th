@@ -15,16 +15,15 @@ namespace MuSeoun_Engine
 	{
 	private:
 		bool _isGameRunning, gameOver;
-		//MConsoleRenderer cRenderer;
 		MWindowUtil* cWindow;
 		chrono::system_clock::time_point startRenderTimePoint;
 		chrono::duration<double> renderDuration;
 		Player* p = new Player();
 		Trab* t[6];
 		int trabSize = sizeof(t) / sizeof(t[0]);
-		//int score, scoreCount;
 		int key;
 		double deltaTime;
+		Image* gameOverImg = new Image("GameOver.bmp");
 	public:
 		MGameLoop()
 		{
@@ -38,8 +37,7 @@ namespace MuSeoun_Engine
 			{
 				t[i] = new Trab();
 			}
-			char TitleName[] = "Chrome dino";
-			cWindow = new MWindowUtil(640, 480, TitleName, 0.025, 1.0 / 3 * 0.1, 40, 20);
+			cWindow = new MWindowUtil("Chrome dino");
 			key = -1;
 			deltaTime = 0;
 		}
@@ -156,21 +154,20 @@ namespace MuSeoun_Engine
 
 			if (!gameOver)
 			{
-				cWindow->PrintRectangle(p->x, p->y, 0, 255, 0);
+				cWindow->PrintRectangle(p->x, p->y, 0, 200, 83);
 
 				for (size_t i = 0; i < trabSize; i++)
 				{
 					if (t[i]->isOn)
-						cWindow->PrintTriangle(t[i]->x, t[i]->y, 255, 0, 0, t[i]->length);
+						cWindow->PrintTriangle(t[i]->x, t[i]->y, 213, 0, 0, t[i]->length);
 				}
 				for (size_t i = 0; i < 41; i++)
-					cWindow->PrintRectangle(i, 8, 0, 0, 0);
+					cWindow->PrintRectangle(i, 8, 250, 250, 250);
 			}
-			//else
-			//{
-				//cRenderer.MoveCursor(16, 7);
-				//cRenderer.DrawString("Game Over!");
-			//}
+			else
+			{
+				cWindow->PrintTexture(gameOverImg, GL_RED, -0.8, 0.8, -0.05, 0.25);
+			}
 			//cRenderer.MoveCursor(0, 0);
 			//cRenderer.DrawString(to_string(score));
 

@@ -35,8 +35,16 @@
     <ClInclude Include="MWindowUtil.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Image.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="GameOver.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

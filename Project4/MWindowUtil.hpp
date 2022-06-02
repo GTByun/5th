@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <Windows.h>
+#include "Image.hpp"
 #pragma comment(lib, "OpenGL32")
 
 int whatPress = 0;
@@ -25,13 +27,14 @@ namespace MuSeoun_Engine
     private:
         GLFWwindow* window;
         float halfX, halfY;
+        GLuint texName;
     public:
-        MWindowUtil(int width, int height, char title[], float halfX, float halfY, int Xblock, int Yblock)
+        MWindowUtil(const char* title)
         {
             glfwSetErrorCallback(error_callback);
             if (!glfwInit())
                 exit(EXIT_FAILURE);
-            window = glfwCreateWindow(width, height, title, NULL, NULL);
+            window = glfwCreateWindow(640, 480, title, NULL, NULL);
             if (!window)
             {
                 glfwTerminate();
@@ -39,9 +42,21 @@ namespace MuSeoun_Engine
             }
             glfwMakeContextCurrent(window);
             glfwSetKeyCallback(window, key_callback);
-            glClearColor(1, 1, 1, 1);
-            this->halfX = halfX;
-            this->halfY = halfY;
+            float color = 33 / 255;
+            glClearColor(color, color, color, 1);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+            glGenTextures(1, &texName);
+            glBindTexture(GL_TEXTURE_2D, texName);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                GL_NEAREST);
+            this->halfX = 0.025f;
+            this->halfY = 1.0f / 3 * 0.1;
         }
         ~MWindowUtil()
         {
@@ -56,7 +71,7 @@ namespace MuSeoun_Engine
 
         void Clear()
         {
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
         void glBeginExtend(double x, double y, int r, int g, int b, double* realX, double* realY, GLenum mode)
@@ -86,6 +101,22 @@ namespace MuSeoun_Engine
             glVertex2f(realX + halfX, realY - halfY);
             glVertex2f(realX, realY + halfY * (length * 2.0f - 1));
             glEnd();
+        }
+
+        void PrintTexture(Image* myImage, GLenum format, double x1, double x2, double y1, double y2)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, myImage->width, myImage->height, 0, format, GL_UNSIGNED_BYTE, myImage->image);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, texName);
+            glBegin(GL_TRIANGLE_STRIP);
+            glTexCoord2f(0.0, 0.0); glVertex3f(x1, y1, 0.0);
+            glTexCoord2f(1.0, 0.0); glVertex3f(x2, y1, 0.0);
+            glTexCoord2f(0.0, 1.0); glVertex3f(x1, y2, 0.0);
+            glTexCoord2f(1.0, 1.0); glVertex3f(x2, y2, 0.0);
+            glEnd();
+            glFlush();
+            glDisable(GL_TEXTURE_2D);
         }
 
         void WindowEvent()

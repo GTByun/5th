@@ -144,12 +144,16 @@
     <ClCompile Include="Trab.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Image.hpp" />
     <ClInclude Include="MGameLoop.hpp" />
     <ClInclude Include="MWindowUtil.hpp" />
     <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="GameOver.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
