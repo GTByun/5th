@@ -74,14 +74,6 @@ namespace MuSeoun_Engine
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
-        void glBeginExtend(double x, double y, int r, int g, int b, double* realX, double* realY, GLenum mode)
-        {
-            *realX = x / 20.0 - 1;
-            *realY = -y / 15.0 + 2 / 3.0;
-            glBegin(mode);
-            glColor3f(r / 255.0, g / 255.0, b / 255.0);
-        }
-
         void PrintRectangle(double x, double y, int r, int g, int b)
         {
             double realX, realY;
@@ -128,6 +120,15 @@ namespace MuSeoun_Engine
         bool isEnd()
         {
             return glfwWindowShouldClose(window);
+        }
+
+    private:
+        void glBeginExtend(double x, double y, int r, int g, int b, double* realX, double* realY, GLenum mode)
+        {
+            *realX = x / 20.0 - 1;
+            *realY = -y / 15.0 + 2 / 3.0;
+            glBegin(mode);
+            glColor3f(r / 255.0, g / 255.0, b / 255.0);
         }
     };
 }

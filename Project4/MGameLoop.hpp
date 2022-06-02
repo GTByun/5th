@@ -67,6 +67,7 @@ namespace MuSeoun_Engine
 			for (size_t i = 0; i < trabSize; i++)
 				delete(t[i]);
 			delete(cWindow);
+			delete(gameOverImg);
 		}
 		void Input()
 		{
