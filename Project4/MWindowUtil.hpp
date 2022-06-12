@@ -42,7 +42,7 @@ namespace MuSeoun_Engine
             }
             glfwMakeContextCurrent(window);
             glfwSetKeyCallback(window, key_callback);
-            float color = 33 / 255;
+            float color = 33.0f / 255;
             glClearColor(color, color, color, 1);
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -97,7 +97,7 @@ namespace MuSeoun_Engine
 
         void PrintTexture(Image* myImage, GLenum format, double x1, double x2, double y1, double y2)
         {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, myImage->width, myImage->height, 0, format, GL_UNSIGNED_BYTE, myImage->image);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, myImage->width, myImage->height, 0, format, GL_UNSIGNED_BYTE, myImage->image);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
             glBindTexture(GL_TEXTURE_2D, texName);

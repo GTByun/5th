@@ -167,7 +167,7 @@ namespace MuSeoun_Engine
 			}
 			else
 			{
-				cWindow->PrintTexture(gameOverImg, GL_RED, -0.8, 0.8, -0.05, 0.25);
+				cWindow->PrintTexture(gameOverImg, GL_RGB, -0.8, 0.8, -0.05, 0.25);
 			}
 			//cRenderer.MoveCursor(0, 0);
 			//cRenderer.DrawString(to_string(score));

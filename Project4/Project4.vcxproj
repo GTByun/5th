@@ -150,10 +150,10 @@
     <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Image Include="GameOver.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="GameOver.bmp" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
